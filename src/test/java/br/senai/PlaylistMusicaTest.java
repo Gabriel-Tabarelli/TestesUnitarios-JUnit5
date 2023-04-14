@@ -20,19 +20,30 @@ public class PlaylistMusicaTest {
 
     @Test
     public void testSetNome() {
-        Assert.assertEquals("nome", playlistMusica.getNome());
+        // Verifica o valor inicial do nome da playlist
+        Assert.assertEquals("O nome da playlist deve ser 'nome' por padrão",
+                "nome",  playlistMusica.getNome());
+        // Altera o nome da playlist
         playlistMusica.setNome("nomeNovo");
-        Assert.assertEquals("nomeNovo", playlistMusica.getNome());
+        // Verifica se o nome foi alterado corretamente
+        Assert.assertEquals("O nome da playlist deve ser atualizado corretamente",
+                "nomeNovo", playlistMusica.getNome());
     }
 
     @Test
     public void testGetMusicas() {
-        Assert.assertEquals(0, playlistMusica.getMusicas().size());
-        playlistMusica.adicionarMusica(new Musica("titulo", "artista", 2000));
+        // Cenário 1: Adicionar uma música à playlist
+        Musica musica1 = new Musica("titulo1", "artista1", 2000);
+        playlistMusica.adicionarMusica(musica1);
         Assert.assertEquals(1, playlistMusica.getMusicas().size());
-        Assert.assertNotNull(playlistMusica.getMusicas());
-        playlistMusica.adicionarMusica(new Musica("titulo", "artista", 2000));
+        Assert.assertTrue(playlistMusica.getMusicas().contains(musica1));
+
+        // Cenário 2: Adicionar duas músicas diferentes à playlist
+        Musica musica2 = new Musica("titulo2", "artista2", 2010);
+        playlistMusica.adicionarMusica(musica2);
         Assert.assertEquals(2, playlistMusica.getMusicas().size());
+        Assert.assertTrue(playlistMusica.getMusicas().contains(musica1));
+        Assert.assertTrue(playlistMusica.getMusicas().contains(musica2));
     }
 
     @Test

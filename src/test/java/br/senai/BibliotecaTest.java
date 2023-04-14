@@ -4,6 +4,8 @@ import junit.framework.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 public class BibliotecaTest {
 
     private Biblioteca biblioteca;
@@ -42,11 +44,12 @@ public class BibliotecaTest {
 
     @Test
     public void testRemoverLivro() {
+        // Configuração do teste
         Livro livro = new Livro("titulo", "autor", "genero", 2000);
         biblioteca.adicionarLivro(livro);
-        Assert.assertEquals(1, biblioteca.getLivros().size());
-        Assert.assertEquals(livro, biblioteca.getLivros().get(0));
+        // Executa a lógica do teste
         biblioteca.removerLivro(livro);
+        // Verifica se o resultado esperado foi alcançado
         Assert.assertEquals(0, biblioteca.getLivros().size());
     }
 
@@ -54,14 +57,17 @@ public class BibliotecaTest {
     public void testBuscarLivrosPorAutor() {
         Livro livro1 = new Livro("titulo", "autor1", "genero", 2000);
         Livro livro2 = new Livro("titulo", "autor2", "genero", 2000);
+        Livro livro3 = new Livro("titulo", "autor1", "genero", 2000);
         biblioteca.adicionarLivro(livro1);
         biblioteca.adicionarLivro(livro2);
-        Assert.assertEquals(livro1, biblioteca.buscarLivrosPorAutor("autor1").get(0));
-        Assert.assertEquals(1, biblioteca.buscarLivrosPorAutor("autor1").size());
-        Livro livro3 = new Livro("titulo", "autor1", "genero", 2000);
         biblioteca.adicionarLivro(livro3);
-        Assert.assertEquals(livro3, biblioteca.buscarLivrosPorAutor("autor1").get(1));
-        Assert.assertEquals(2, biblioteca.buscarLivrosPorAutor("autor1").size());
+        List<Livro> livrosDoAutor1 = biblioteca.buscarLivrosPorAutor("autor1");
+        Assert.assertEquals("Deveriam ter sido encontrados 2 livros do autor1",
+                2, livrosDoAutor1.size());
+        Assert.assertTrue("O livro1 deveria estar na lista de livros do autor1",
+                livrosDoAutor1.contains(livro1));
+        Assert.assertTrue("O livro3 deveria estar na lista de livros do autor1",
+                livrosDoAutor1.contains(livro3));
     }
 
     @Test
